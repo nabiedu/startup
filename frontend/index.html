@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DOKWORK.KZ — Помощь мигрантам в Казахстане</title>
+  <meta name="description" content="DOKWORK.KZ — оформление документов, жильё и поиск работы для мигрантов в Казахстане." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--accent:#0ea5a4;--accent-2:#0b7285;--muted:#6b7280;background:#f8fafc}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#0f172a;background:var(--bg,#f8fafc)}
+    .container{max-width:1100px;margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    nav a{margin-left:14px;color:#0f172a;text-decoration:none;font-weight:600}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-bottom:28px}
+    .card{background:white;border-radius:14px;padding:20px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    h1{font-size:28px;margin:0 0 8px}
+    p.lead{margin:0 0 18px;color:var(--muted)}
+    .quick-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
+    .btn-outline{background:transparent;border:1px solid #e6eef0}
+
+    /* Listings */
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    .listing{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(14,165,164,0.03),transparent);border:1px solid rgba(14,165,164,0.07)}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* forms */
+    label{display:block;font-size:13px;margin-bottom:6px;color:#06080b}
+    input[type=text],input[type=email],select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e5e7eb;margin-bottom:10px}
+    textarea{min-height:90px}
+
+    footer{margin-top:28px;padding:18px 0;color:var(--muted);text-align:center}
+
+    @media(max-width:880px){
+      .hero{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">DW</div>
+        <div>
+          <div style="font-weight:700">DOKWORK.KZ</div>
+          <div class="muted" style="font-size:13px">Помогаем мигрантам из Кыргызстана, Узбекистана и Таджикистана</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#documents">Документы</a>
+        <a href="#housing">Жильё</a>
+        <a href="#jobs">Работа</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="card">
+          <h1>Приехали в Казахстан? DOKWORK.KZ — ваш быстрый старт</h1>
+          <p class="lead">Оформление документов, удобные хостелы/квартиры и поиск работы — всё в одном месте. На русском и в сообществах мигрантов.</p>
+
+          <div class="quick-actions">
+            <button class="btn btn-primary" onclick="document.getElementById('doc-form').scrollIntoView({behavior:'smooth'})">Оформить документы</button>
+            <button class="btn btn-outline" onclick="document.getElementById('housing-list').scrollIntoView({behavior:'smooth'})">Найти жильё</button>
+            <button class="btn btn-outline" onclick="document.getElementById('jobs-list').scrollIntoView({behavior:'smooth'})">Найти работу</button>
+          </div>
+
+          <hr style="margin:18px 0;border:none;border-top:1px dashed #eef2f6">
+
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <div class="muted">Горячая линия:</div>
+            <div style="font-weight:700">+7 700 000 0000</div>
+            <div class="muted">Email: hello@dokwork.kz</div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <h3 style="margin-top:0">Быстрый профиль</h3>
+            <div class="muted" style="margin-bottom:10px">Заполните профиль — работодателям и хостелам будет проще связаться с вами.</div>
+            <form id="quick-profile" onsubmit="event.preventDefault();saveProfile()">
+              <label>Имя</label>
+              <input type="text" id="q-name" placeholder="Ваше имя" required>
+              <label>Страна</label>
+              <select id="q-country"><option>Кыргызстан</option><option>Узбекистан</option><option>Таджикистан</option></select>
+              <label>Телефон</label>
+              <input type="text" id="q-phone" placeholder="+7 ...">
+              <button class="btn btn-primary" type="submit">Сохранить профиль</button>
+            </form>
+            <div id="profile-saved" style="display:none;margin-top:8px;color:green">Профиль сохранён в локальном хранилище.</div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Documents -->
+      <section id="documents" style="margin-top:12px">
+        <div class="section-title">
+          <h2>1) Оформление документов</h2>
+          <div class="muted">Заполните заявку — мы подготовим чек-лист и помощь</div>
+        </div>
+
+        <div class="card" id="doc-form">
+          <form onsubmit="event.preventDefault();submitDocumentRequest()">
+            <label>Тип услуги</label>
+            <select id="doc-type"><option>Оформление разрешения на временное проживание</option><option>Вид на жительство</option><option>Оформление ИИН</option><option>Медицинская страховка</option></select>
+            <label>Имя и фамилия</label>
+            <input type="text" id="doc-name" required>
+            <label>Телефон</label>
+            <input type="text" id="doc-phone" placeholder="+7 ..." required>
+            <label>Email (опционально)</label>
+            <input type="email" id="doc-email" placeholder="example@mail.com">
+            <label>Комментарий</label>
+            <textarea id="doc-comment" placeholder="Кратко опишите ситуацию"></textarea>
+            <button class="btn btn-primary" type="submit">Отправить заявку</button>
+            <div id="doc-msg" style="margin-top:8px;display:none"></div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Housing -->
+      <section id="housing" style="margin-top:18px">
+        <div class="section-title">
+          <h2>2) Объявления: хостелы и квартиры</h2>
+          <div class="muted">Добавляйте объявления — снимайте надёжно и недорого</div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px">
+          <h3 style="margin-top:0">Добавить объявление</h3>
+          <form id="housing-form" onsubmit="event.preventDefault();addHousing()">
+            <label>Тип</label>
+            <select id="h-type"><option>Хостел</option><option>Комната</option><option>Квартира</option></select>
+            <label>Город</label>
+            <input type="text" id="h-city" placeholder="Алматы, Нур-Султан..." required>
+            <label>Цена в месяц (KZT)</label>
+            <input type="text" id="h-price" placeholder="25000">
+            <label>Контакт</label>
+            <input type="text" id="h-contact" placeholder="Телефон или telegram">
+            <button class="btn btn-primary" type="submit">Добавить объявление</button>
+          </form>
+        </div>
+
+        <div id="housing-list" class="grid-3" aria-live="polite"></div>
+      </section>
+
+      <!-- Jobs -->
+      <section id="jobs" style="margin-top:18px">
+        <div class="section-title">
+          <h2>3) Поиск работы</h2>
+          <div class="muted">Вакансии для мигрантов: стройка, сервис, логистика, производство</div>
+        </div>
+
+        <div class="card" style="margin-bottom:12px">
+          <h3 style="margin-top:0">Опубликовать вакансию</h3>
+          <form id="job-form" onsubmit="event.preventDefault();addJob()">
+            <label>Должность</label>
+            <input type="text" id="j-title" required>
+            <label>Город</label>
+            <input type="text" id="j-city" required>
+            <label>Заработная плата (KZT)</label>
+            <input type="text" id="j-salary" placeholder="от 150000">
+            <label>Контакт</label>
+            <input type="text" id="j-contact" placeholder="Телефон или telegram">
+            <button class="btn btn-primary" type="submit">Опубликовать вакансию</button>
+          </form>
+        </div>
+
+        <div id="jobs-list" class="grid-3" aria-live="polite"></div>
+      </section>
+
+    </main>
+
+    <footer>
+      © DOKWORK.KZ — 2025 · Сделано с заботой. <span class="muted">Связь: hello@dokwork.kz</span>
+    </footer>
+  </div>
+
+  <script>
+    // Local storage helpers (ключи изменены на dokwork_*)
+    function saveProfile(){
+      const p={name:document.getElementById('q-name').value,country:document.getElementById('q-country').value,phone:document.getElementById('q-phone').value};
+      localStorage.setItem('dokwork_profile',JSON.stringify(p));
+      document.getElementById('profile-saved').style.display='block';
+      setTimeout(()=>document.getElementById('profile-saved').style.display='none',2500);
+    }
+
+    function submitDocumentRequest(){
+      const data={type:document.getElementById('doc-type').value,name:document.getElementById('doc-name').value,phone:document.getElementById('doc-phone').value,email:document.getElementById('doc-email').value,comment:document.getElementById('doc-comment').value,time:new Date().toISOString()};
+      const arr=JSON.parse(localStorage.getItem('dokwork_docs')||'[]');
+      arr.unshift(data);localStorage.setItem('dokwork_docs',JSON.stringify(arr));
+      const el=document.getElementById('doc-msg');el.style.display='block';el.style.color='green';el.textContent='Заявка принята — мы свяжемся по телефону.';
+      setTimeout(()=>el.style.display='none',3000);
+    }
+
+    // Housing
+    function loadHousing(){
+      const list=document.getElementById('housing-list');list.innerHTML='';
+      const arr=JSON.parse(localStorage.getItem('dokwork_housing')||'[]');
+      if(arr.length===0){list.innerHTML='<div class="muted">Объявлений пока нет — вы можете добавить первое.</div>';return}
+      arr.forEach((h,i)=>{
+        const d=document.createElement('div');d.className='listing';d.innerHTML=`<div style="font-weight:700">${h.type} — ${h.city}</div><div class="muted">Цена: ${h.price||'по договорённости'}</div><div style="margin-top:6px">${h.contact||''}</div>`;
+        list.appendChild(d);
+      });
+    }
+    function addHousing(){
+      const h={type:document.getElementById('h-type').value,city:document.getElementById('h-city').value,price:document.getElementById('h-price').value,contact:document.getElementById('h-contact').value,time:new Date().toISOString()};
+      const arr=JSON.parse(localStorage.getItem('dokwork_housing')||'[]');arr.unshift(h);localStorage.setItem('dokwork_housing',JSON.stringify(arr));
+      loadHousing();
+    }
+
+    // Jobs
+    function loadJobs(){
+      const list=document.getElementById('jobs-list');list.innerHTML='';
+      const arr=JSON.parse(localStorage.getItem('dokwork_jobs')||'[]');
+      if(arr.length===0){list.innerHTML='<div class="muted">Вакансий пока нет — опубликуйте первую.</div>';return}
+      arr.forEach((j,i)=>{
+        const d=document.createElement('div');d.className='listing';d.innerHTML=`<div style="font-weight:700">${j.title}</div><div class="muted">Город: ${j.city} · Зарплата: ${j.salary||'по договорённости'}</div><div style="margin-top:6px">${j.contact||''}</div>`;
+        list.appendChild(d);
+      });
+    }
+    function addJob(){
+      const j={title:document.getElementById('j-title').value,city:document.getElementById('j-city').value,salary:document.getElementById('j-salary').value,contact:document.getElementById('j-contact').value,time:new Date().toISOString()};
+      const arr=JSON.parse(localStorage.getItem('dokwork_jobs')||'[]');arr.unshift(j);localStorage.setItem('dokwork_jobs',JSON.stringify(arr));
+      loadJobs();
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded',()=>{loadHousing();loadJobs();});
+  </script>
+</body>
+</html>
