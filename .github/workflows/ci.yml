@@ -41,3 +41,8 @@ jobs:
           cd backend
           npx prisma migrate deploy || true
           npm test
+      - name: Optional: k6 load
+        if: false
+        run: |
+          sudo apt-get update; sudo apt-get install -y k6
+          k6 run tests/load/k6.js
