@@ -34,6 +34,33 @@ cd frontend; npm install; npm start
 - `docker-compose.yml`, Dockerfile для frontend и backend
 - `.gitignore`, `README.md`
 
+Дополнительно (Prisma + PostgreSQL):
+
+1) В backend добавлены файлы Prisma (`prisma/schema.prisma`, `prisma/seed.js`) и пример `.env`.
+2) В `docker-compose.yml` добавлен сервис `postgres`.
+
+Миграции и генерация клиента (локально):
+
+```powershell
+cd backend
+npm install
+npx prisma generate
+# Чтобы создать миграцию и применить (локально):
+npx prisma migrate dev --name init
+node prisma/seed.js
+```
+
+Если используете Docker Compose, запустите:
+
+```powershell
+docker-compose up --build
+```
+
+После запуска:
+- backend: http://localhost:4000
+- frontend: http://localhost:3000
+
+
 Следующие шаги (предложение плана работы):
 - Перевести хранение данных на PostgreSQL + ORM (Prisma/TypeORM)
 - Реализовать аутентификацию (JWT), роли, админ-панель
