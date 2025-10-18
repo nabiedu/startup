@@ -12,15 +12,17 @@ async function main(){
   });
 
   // sample housing
+  const admin = await prisma.user.findUnique({ where: { email: 'admin@dokwork.kz' } });
+
   await prisma.housing.createMany({ data: [
-    { type: 'Хостел', city: 'Алматы', price: '20000', contact: '+7 700 000 0001' },
-    { type: 'Квартира', city: 'Нур-Султан', price: '45000', contact: '+7 700 000 0002' }
+    { type: 'Хостел', city: 'Алматы', price: '20000', contact: '+7 700 000 0001', ownerId: admin.id },
+    { type: 'Квартира', city: 'Нур-Султан', price: '45000', contact: '+7 700 000 0002', ownerId: admin.id }
   ]});
 
   // sample jobs
   await prisma.job.createMany({ data: [
-    { title: 'Строитель', city: 'Алматы', salary: '150000', contact: '+7 700 000 0003' },
-    { title: 'Водитель', city: 'Шымкент', salary: '180000', contact: '+7 700 000 0004' }
+    { title: 'Строитель', city: 'Алматы', salary: '150000', contact: '+7 700 000 0003', ownerId: admin.id },
+    { title: 'Водитель', city: 'Шымкент', salary: '180000', contact: '+7 700 000 0004', ownerId: admin.id }
   ]});
 }
 
