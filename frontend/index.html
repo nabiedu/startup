@@ -284,12 +284,15 @@
     async function loadHousing(){
       const list = document.getElementById('housing-list'); list.innerHTML='';
       try{
-        const res = await fetch(`${API}/housing`);
+        const res = await authFetch(`${API}/housing`);
         if(!res.ok) throw new Error('Bad response');
         const arr = await res.json();
-        if(!arr || arr.length===0){ list.innerHTML='<div class="muted">Объявлений пока нет — вы можете добавить первое.</div>'; return }
-        arr.forEach(h=>{
-          const d=document.createElement('div');d.className='listing';d.innerHTML=`<div style="font-weight:700">${h.type} — ${h.city}</div><div class="muted">Цена: ${h.price||'по договорённости'}</div><div style="margin-top:6px">${h.contact||''}</div>`;
+        if(!arr || arr.items.length===0){ list.innerHTML='<div class="muted">Объявлений пока нет — вы можете добавить первое.</div>'; return }
+        arr.items.forEach(h=>{
+          const d=document.createElement('div');d.className='listing';
+          d.innerHTML=`<div style=\"font-weight:700\">${h.type} — ${h.city}</div><div class=\"muted\">Цена: ${h.price||'по договорённости'}</div><div style=\"margin-top:6px\">${h.contact||''}</div>`;
+          // edit/delete if owner or admin
+          const token = getToken(); if(token){ const btns=document.createElement('div'); btns.style.marginTop='8px'; const edit=document.createElement('button'); edit.className='btn btn-outline'; edit.textContent='Редактировать'; edit.onclick=()=>editHousing(h); btns.appendChild(edit); const del=document.createElement('button'); del.className='btn btn-outline'; del.style.marginLeft='8px'; del.textContent='Удалить'; del.onclick=()=>deleteHousing(h.id); btns.appendChild(del); d.appendChild(btns);} 
           list.appendChild(d);
         });
       }catch(e){
@@ -310,16 +313,27 @@
       await loadHousing();
     }
 
+    async function editHousing(h){
+      const type = prompt('Тип', h.type); if(type===null) return; const city = prompt('Город', h.city); if(city===null) return; const price = prompt('Цена', h.price||'');
+      const body = { type, city, price };
+      const res = await authFetch(`${API}/housing/${h.id}`, { method:'PUT', body: JSON.stringify(body)});
+      if(res.ok) alert('Объявление обновлено'); else alert('Ошибка при обновлении');
+      await loadHousing();
+    }
+
+    async function deleteHousing(id){ if(!confirm('Удалить объявление?')) return; const res = await authFetch(`${API}/housing/${id}`, { method:'DELETE' }); if(res.ok) alert('Удалено'); else alert('Ошибка'); await loadHousing(); }
+
     // Jobs
     async function loadJobs(){
       const list=document.getElementById('jobs-list');list.innerHTML='';
       try{
-        const res = await fetch(`${API}/jobs`);
+        const res = await authFetch(`${API}/jobs`);
         if(!res.ok) throw new Error('Bad response');
         const arr = await res.json();
-        if(!arr || arr.length===0){ list.innerHTML='<div class="muted">Вакансий пока нет — опубликуйте первую.</div>'; return }
-        arr.forEach(j=>{
+        if(!arr || arr.items.length===0){ list.innerHTML='<div class="muted">Вакансий пока нет — опубликуйте первую.</div>'; return }
+        arr.items.forEach(j=>{
           const d=document.createElement('div');d.className='listing';d.innerHTML=`<div style="font-weight:700">${j.title}</div><div class="muted">Город: ${j.city} · Зарплата: ${j.salary||'по договорённости'}</div><div style="margin-top:6px">${j.contact||''}</div>`;
+          const token = getToken(); if(token){ const btns=document.createElement('div'); btns.style.marginTop='8px'; const edit=document.createElement('button'); edit.className='btn btn-outline'; edit.textContent='Редактировать'; edit.onclick=()=>editJob(j); btns.appendChild(edit); const del=document.createElement('button'); del.className='btn btn-outline'; del.style.marginLeft='8px'; del.textContent='Удалить'; del.onclick=()=>deleteJob(j.id); btns.appendChild(del); d.appendChild(btns);} 
           list.appendChild(d);
         });
       }catch(e){
@@ -331,6 +345,15 @@
         });
       }
     }
+
+    async function editJob(j){
+      const title = prompt('Должность', j.title); if(title===null) return; const city = prompt('Город', j.city); if(city===null) return; const salary = prompt('Зарплата', j.salary||'');
+      const body = { title, city, salary };
+      const res = await authFetch(`${API}/jobs/${j.id}`, { method:'PUT', body: JSON.stringify(body) });
+      if(res.ok) alert('Вакансия обновлена'); else alert('Ошибка'); await loadJobs();
+    }
+
+    async function deleteJob(id){ if(!confirm('Удалить вакансию?')) return; const res = await authFetch(`${API}/jobs/${id}`, { method:'DELETE' }); if(res.ok) alert('Удалено'); else alert('Ошибка'); await loadJobs(); }
     async function addJob(){
       const j = {title:document.getElementById('j-title').value,city:document.getElementById('j-city').value,salary:document.getElementById('j-salary').value,contact:document.getElementById('j-contact').value,time:new Date().toISOString()};
       const res = await postOrQueue('jobs', j);

@@ -129,6 +129,26 @@ app.delete('/docs/:id', authMiddleware, async (req,res,next)=>{ try{ const id = 
 // profiles — admin only
 app.get('/profiles', authMiddleware, adminOnly, async (req,res,next)=>{ try{ const users = await prisma.user.findMany({ select:{ id:true, email:true, name:true, role:true, createdAt:true }, orderBy:{ createdAt:'desc' } }); res.json(users); }catch(e){next(e)} });
 
+// update user (admin only) - change role or name
+app.put('/profiles/:id', authMiddleware, adminOnly, async (req,res,next)=>{
+  try{
+    const id = parseInt(req.params.id);
+    const { role, name } = req.body;
+    const user = await prisma.user.update({ where:{ id }, data: { role, name } });
+    res.json(user);
+  }catch(e){ next(e); }
+});
+
+// delete user (admin only)
+app.delete('/profiles/:id', authMiddleware, adminOnly, async (req,res,next)=>{
+  try{
+    const id = parseInt(req.params.id);
+    await prisma.refreshToken.deleteMany({ where: { userId: id } });
+    await prisma.user.delete({ where: { id } });
+    res.json({ ok:true });
+  }catch(e){ next(e); }
+});
+
 // Serve frontend static files
 app.use('/', express.static(path.join(__dirname, '..', 'frontend')));
 
