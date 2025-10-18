@@ -56,6 +56,7 @@
         <a href="#documents">Документы</a>
         <a href="#housing">Жильё</a>
         <a href="#jobs">Работа</a>
+        <a href="#auth" id="nav-auth-link">Войти</a>
       </nav>
     </header>
 
@@ -96,6 +97,41 @@
             <div id="profile-saved" style="display:none;margin-top:8px;color:green">Профиль сохранён в локальном хранилище.</div>
           </div>
         </aside>
+      </section>
+
+      <!-- Auth -->
+      <section id="auth" style="margin-top:18px">
+        <div class="card">
+          <h3 style="margin-top:0">Аккаунт</h3>
+          <div id="auth-forms">
+            <form id="login-form" onsubmit="event.preventDefault();login()" style="margin-bottom:12px">
+              <label>Email</label>
+              <input type="email" id="a-email" required>
+              <label>Пароль</label>
+              <input type="password" id="a-password" required>
+              <button class="btn btn-primary" type="submit">Войти</button>
+            </form>
+
+            <form id="register-form" onsubmit="event.preventDefault();register()">
+              <label>Имя</label>
+              <input type="text" id="r-name">
+              <label>Email</label>
+              <input type="email" id="r-email" required>
+              <label>Пароль</label>
+              <input type="password" id="r-password" required>
+              <button class="btn btn-outline" type="submit">Регистрация</button>
+            </form>
+          </div>
+
+          <div id="account-info" style="display:none">
+            <div id="acc-welcome" style="font-weight:700"></div>
+            <div style="margin-top:8px"><button class="btn btn-outline" onclick="logout()">Выйти</button></div>
+            <div id="admin-panel" style="margin-top:12px;display:none">
+              <h4>Admin: профили</h4>
+              <div id="admin-profiles" class="grid-3"></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Documents -->
@@ -303,7 +339,40 @@
     }
 
     // Init
-    document.addEventListener('DOMContentLoaded', async ()=>{ await flushQueues(); loadHousing(); loadJobs(); });
+    // Auth helpers
+    function getToken(){ return localStorage.getItem('dokwork_token'); }
+    function setToken(t){ if(t) localStorage.setItem('dokwork_token', t); else localStorage.removeItem('dokwork_token'); }
+
+    async function authFetch(url, opts={}){
+      opts.headers = opts.headers || {};
+      opts.headers['Content-Type'] = opts.headers['Content-Type'] || 'application/json';
+      const token = getToken(); if(token) opts.headers['Authorization'] = 'Bearer '+token;
+      return fetch(url, opts);
+    }
+
+    async function register(){
+      const body = { name: document.getElementById('r-name').value, email: document.getElementById('r-email').value, password: document.getElementById('r-password').value };
+      const res = await fetch(`${API}/auth/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+      if(res.ok){ alert('Регистрация успешна. Войдите в систему.'); document.getElementById('r-email').value=''; document.getElementById('r-password').value=''; }
+      else { const e = await res.json(); alert('Ошибка регистрации: '+(e.message||JSON.stringify(e))); }
+    }
+
+    async function login(){
+      const body = { email: document.getElementById('a-email').value, password: document.getElementById('a-password').value };
+      const res = await fetch(`${API}/auth/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+      if(res.ok){ const data = await res.json(); setToken(data.token); showAccount(data.user); alert('Вход выполнен'); }
+      else { const e = await res.json(); alert('Ошибка входа: '+(e.message||JSON.stringify(e))); }
+    }
+
+    function logout(){ setToken(null); hideAccount(); }
+
+    function showAccount(user){ document.getElementById('auth-forms').style.display='none'; document.getElementById('account-info').style.display='block'; document.getElementById('acc-welcome').textContent = user.name || user.email; if(user.role==='admin'){ document.getElementById('admin-panel').style.display='block'; loadAdminProfiles(); } }
+    function hideAccount(){ document.getElementById('auth-forms').style.display='block'; document.getElementById('account-info').style.display='none'; document.getElementById('admin-panel').style.display='none'; }
+
+    async function loadAdminProfiles(){ try{ const res = await authFetch(`${API}/profiles`); if(!res.ok) throw new Error('Forbidden'); const arr = await res.json(); const el = document.getElementById('admin-profiles'); el.innerHTML=''; arr.forEach(u=>{ const d=document.createElement('div'); d.className='listing'; d.innerHTML = `<div style="font-weight:700">${u.name||u.email}</div><div class="muted">${u.email} · ${u.role}</div>`; el.appendChild(d); }); }catch(e){ console.error(e); } }
+
+    // On load
+    document.addEventListener('DOMContentLoaded', async ()=>{ await flushQueues(); loadHousing(); loadJobs(); const token = getToken(); if(token){ try{ const r = await authFetch(`${API}/auth/me`); if(r.ok){ const user = await r.json(); showAccount(user); }else{ setToken(null); } }catch(e){ console.error(e); } } });
   </script>
 </body>
 </html>
