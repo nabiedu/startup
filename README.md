@@ -11,7 +11,38 @@
 
 ---
 
-## 🚀 Быстрый старт (3 минуты)
+## 🌐 Live Demo (Production)
+
+**✅ Проект развёрнут на production!**
+
+| Сервис | URL | Статус |
+|--------|-----|--------|
+| **Backend** | https://dokwork-api-production.railway.app | 🟢 Live |
+| **Frontend** | https://dokwork-frontend.netlify.app | 🟢 Live |
+| **Health Check** | https://dokwork-api-production.railway.app/health | 🟢 OK |
+
+**Тестовые учётные данные:**
+- **Admin**: admin@dokwork.kz / admin123
+- **User**: user@dokwork.kz / user123
+
+---
+
+## 🚀 Путь к 100% (за 15 минут)
+
+**Если вы хотите развернуть свой собственный проект на production:**
+
+**📋 Читайте:** [`SCENARIO_A_QUICK_GUIDE.md`](SCENARIO_A_QUICK_GUIDE.md)
+
+Инструкция:
+1. Deploy Backend на Railway (5 мин) → [`SCENARIO_A_STEP1.md`](SCENARIO_A_STEP1.md)
+2. Deploy Frontend на Netlify (5 мин) → [`SCENARIO_A_STEP2.md`](SCENARIO_A_STEP2.md)
+3. Update README с live URLs (5 мин) → [`SCENARIO_A_STEP3.md`](SCENARIO_A_STEP3.md)
+
+**Результат: Backend + Frontend live на production! ✅**
+
+---
+
+## 🚀 Быстрый старт (3 минуты - локальная разработка)
 
 ### Windows (PowerShell)
 ```powershell

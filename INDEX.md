@@ -157,7 +157,18 @@ STARTUP/
 
 ## 🎯 Следующие шаги
 
-### Шаг 1: Запустить локально (2 мин)
+### **🚀 SCENARIO A: К 100% за 15 минут!**
+
+**QUICK START:**
+```
+1. SCENARIO_A_QUICK_GUIDE.md ← НАЧНИТЕ ЗДЕСЬ!
+2. SCENARIO_A_STEP1.md (Backend Railway, 5 мин)
+3. SCENARIO_A_STEP2.md (Frontend Netlify, 5 мин)
+4. SCENARIO_A_STEP3.md (Update README, 5 мин)
+= 100% ✅
+```
+
+### Шаг 1: Запустить Backend на Railway
 ```bash
 .\start-local-dev.ps1
 ```
