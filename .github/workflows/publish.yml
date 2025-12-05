@@ -1,0 +1,33 @@
+name: Build and Publish
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build-and-publish:
+    if: false # enable when secrets are configured
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Build backend image
+        run: |
+          docker build -t backend-image -f backend/Dockerfile .
+      - name: Login to GHCR
+        env:
+          CR_PAT: ${{ secrets.CR_PAT }}
+        run: |
+          echo "$CR_PAT" | docker login ghcr.io -u ${{ secrets.GHCR_OWNER }} --password-stdin
+      - name: Tag & Push backend
+        run: |
+          docker tag backend-image ghcr.io/${{ secrets.GHCR_OWNER }}/dokwork-backend:latest
+          docker push ghcr.io/${{ secrets.GHCR_OWNER }}/dokwork-backend:latest
+      - name: Build & push frontend (optional)
+        run: |
+          docker build -t frontend-image -f frontend/Dockerfile .
+          docker tag frontend-image ghcr.io/${{ secrets.GHCR_OWNER }}/dokwork-frontend:latest
+          docker push ghcr.io/${{ secrets.GHCR_OWNER }}/dokwork-frontend:latest

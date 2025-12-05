@@ -1,0 +1,165 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # PostgreSQL Database (Production)
+  # ============================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: dokwork-db-prod
+    environment:
+      POSTGRES_DB: dokwork_prod
+      POSTGRES_USER: dokwork_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change-me-in-production}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dokwork_user -d dokwork_prod"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dokwork-network
+    restart: unless-stopped
+
+  # ============================================================================
+  # Backend API (Production)
+  # ============================================================================
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.prod
+    container_name: dokwork-api-prod
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://dokwork_user:${DB_PASSWORD:-change-me-in-production}@postgres:5432/dokwork_prod
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+    ports:
+      - "4000:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - dokwork-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # ============================================================================
+  # Frontend (Nginx)
+  # ============================================================================
+  frontend:
+    image: nginx:alpine
+    container_name: dokwork-web-prod
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    networks:
+      - dokwork-network
+    restart: unless-stopped
+
+  # ============================================================================
+  # Prometheus (Monitoring)
+  # ============================================================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: dokwork-prometheus-prod
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+    networks:
+      - dokwork-network
+    restart: unless-stopped
+
+  # ============================================================================
+  # Grafana (Dashboards)
+  # ============================================================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: dokwork-grafana-prod
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_SERVER_ROOT_URL: ${GRAFANA_URL:-http://localhost:3001}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - dokwork-network
+    restart: unless-stopped
+
+  # ============================================================================
+  # Loki (Log Aggregation)
+  # ============================================================================
+  loki:
+    image: grafana/loki:latest
+    container_name: dokwork-loki-prod
+    volumes:
+      - ./monitoring/loki-config.yaml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    networks:
+      - dokwork-network
+    restart: unless-stopped
+
+  # ============================================================================
+  # Promtail (Log Collector)
+  # ============================================================================
+  promtail:
+    image: grafana/promtail:latest
+    container_name: dokwork-promtail-prod
+    volumes:
+      - ./monitoring/promtail.yml:/etc/promtail/config.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - dokwork-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  prometheus_data:
+  grafana_data:
+  loki_data:
+
+networks:
+  dokwork-network:
+    driver: bridge

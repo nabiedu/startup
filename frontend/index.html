@@ -1,80 +1,18 @@
 <!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DOKWORK.KZ — Помощь мигрантам в Казахстане</title>
-  <meta name="description" content="DOKWORK.KZ — оформление документов, жильё и поиск работы для мигрантов в Казахстане." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--accent:#0ea5a4;--accent-2:#0b7285;--muted:#6b7280;background:#f8fafc}
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#0f172a;background:var(--bg,#f8fafc)}
-    .container{max-width:1100px;margin:0 auto;padding:28px}
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
-    nav a{margin-left:14px;color:#0f172a;text-decoration:none;font-weight:600}
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-bottom:28px}
-    .card{background:white;border-radius:14px;padding:20px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
-    h1{font-size:28px;margin:0 0 8px}
-    p.lead{margin:0 0 18px;color:var(--muted)}
-    .quick-actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
-    .btn-outline{background:transparent;border:1px solid #e6eef0}
-
-    /* Listings */
-    .section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-    .listing{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(14,165,164,0.03),transparent);border:1px solid rgba(14,165,164,0.07)}
-    .muted{color:var(--muted);font-size:13px}
-
-    /* forms */
-    label{display:block;font-size:13px;margin-bottom:6px;color:#06080b}
-    input[type=text],input[type=email],select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e5e7eb;margin-bottom:10px}
-    textarea{min-height:90px}
-
-    footer{margin-top:28px;padding:18px 0;color:var(--muted);text-align:center}
-
-    @media(max-width:880px){
-      .hero{grid-template-columns:1fr}
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Документ</title>
+  </head>
+  <body>
+    <div class="container">
     <header>
       <div class="brand">
         <div class="logo">DW</div>
         <div>
           <div style="font-weight:700">DOKWORK.KZ</div>
           <div class="muted" style="font-size:13px">Помогаем мигрантам из Кыргызстана, Узбекистана и Таджикистана</div>
-        </div>
-      </div>
-      <nav>
-        <a href="#documents">Документы</a>
-        <a href="#housing">Жильё</a>
-        <a href="#jobs">Работа</a>
-        <a href="#auth" id="nav-auth-link">Войти</a>
-      </nav>
-    </header>
-
-    <main>
-      <section class="hero">
-        <div class="card">
-          <h1>Приехали в Казахстан? DOKWORK.KZ — ваш быстрый старт</h1>
-          <p class="lead">Оформление документов, удобные хостелы/квартиры и поиск работы — всё в одном месте. На русском и в сообществах мигрантов.</p>
-
-          <div class="quick-actions">
-            <button class="btn btn-primary" onclick="document.getElementById('doc-form').scrollIntoView({behavior:'smooth'})">Оформить документы</button>
-            <button class="btn btn-outline" onclick="document.getElementById('housing-list').scrollIntoView({behavior:'smooth'})">Найти жильё</button>
-            <button class="btn btn-outline" onclick="document.getElementById('jobs-list').scrollIntoView({behavior:'smooth'})">Найти работу</button>
-          </div>
-
-          <hr style="margin:18px 0;border:none;border-top:1px dashed #eef2f6">
-
-          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
             <div class="muted">Горячая линия:</div>
             <div style="font-weight:700">+7 700 000 0000</div>
             <div class="muted">Email: hello@dokwork.kz</div>
@@ -97,7 +35,9 @@
             <div id="profile-saved" style="display:none;margin-top:8px;color:green">Профиль сохранён в локальном хранилище.</div>
           </div>
         </aside>
-      </section>
+      </header>
+
+      <main>
 
       <!-- Auth -->
       <section id="auth" style="margin-top:18px">
@@ -128,7 +68,12 @@
             <div style="margin-top:8px"><button class="btn btn-outline" onclick="logout()">Выйти</button></div>
             <div id="admin-panel" style="margin-top:12px;display:none">
               <h4>Admin: профили</h4>
-              <div id="admin-profiles" class="grid-3"></div>
+                      <div id="admin-profiles" class="grid-3"></div>
+                      <div style="margin-top:12px">
+                        <h4>Управление объявлениями</h4>
+                        <div id="admin-housing" class="grid-3"></div>
+                        <div id="admin-jobs" class="grid-3"></div>
+                      </div>
             </div>
           </div>
         </div>
@@ -168,6 +113,10 @@
 
         <div class="card" style="margin-bottom:12px">
           <h3 style="margin-top:0">Добавить объявление</h3>
+          <div style="margin-bottom:10px">
+            <label>Поиск/фильтр</label>
+            <input type="text" id="h-search" placeholder="Город, тип, минимальная цена" oninput="filterHousingClient()">
+          </div>
           <form id="housing-form" onsubmit="event.preventDefault();addHousing()">
             <label>Тип</label>
             <select id="h-type"><option>Хостел</option><option>Комната</option><option>Квартира</option></select>
@@ -181,7 +130,8 @@
           </form>
         </div>
 
-        <div id="housing-list" class="grid-3" aria-live="polite"></div>
+  <div id="housing-list" class="grid-3" aria-live="polite"></div>
+  <div id="housing-pager" style="margin-top:12px;display:flex;gap:8px;align-items:center"></div>
       </section>
 
       <!-- Jobs -->
@@ -193,6 +143,10 @@
 
         <div class="card" style="margin-bottom:12px">
           <h3 style="margin-top:0">Опубликовать вакансию</h3>
+          <div style="margin-bottom:10px">
+            <label>Поиск вакансий</label>
+            <input type="text" id="j-search" placeholder="Должность или город" oninput="filterJobsClient()">
+          </div>
           <form id="job-form" onsubmit="event.preventDefault();addJob()">
             <label>Должность</label>
             <input type="text" id="j-title" required>
@@ -206,7 +160,8 @@
           </form>
         </div>
 
-        <div id="jobs-list" class="grid-3" aria-live="polite"></div>
+  <div id="jobs-list" class="grid-3" aria-live="polite"></div>
+  <div id="jobs-pager" style="margin-top:12px;display:flex;gap:8px;align-items:center"></div>
       </section>
 
     </main>
@@ -217,8 +172,21 @@
   </div>
 
   <script>
+    // load DOMPurify from CDN (allowed in CSP)
+    // if CDN blocked, DOMPurify fallback won't be available but server-side validation remains
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js" integrity="sha256-+BQVf+g+g7xJ1q1D8l2eYkP9v+v+o1Q5QmQkqvT+7l4=" crossorigin="anonymous"></script>
+  <script>
     // Backend base URL
-    const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:4000' : `${window.location.protocol}//${window.location.hostname}:4000`;
+    let API = 'http://localhost:4000'; // Default for local dev
+    
+    // Production URLs
+    if (window.location.hostname === 'dokwork-frontend.netlify.app') {
+      API = 'https://dokwork-api-production.railway.app';
+    } else if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      // For other deployments, try same origin
+      API = `${window.location.protocol}//${window.location.hostname}:4000`;
+    }
 
     // Generic helper: try POST to API, on failure save to offline queue
     async function postOrQueue(collection, payload){
@@ -273,7 +241,10 @@
 
     // Documents
     async function submitDocumentRequest(){
-      const data = {type:document.getElementById('doc-type').value,name:document.getElementById('doc-name').value,phone:document.getElementById('doc-phone').value,email:document.getElementById('doc-email').value,comment:document.getElementById('doc-comment').value,time:new Date().toISOString()};
+      // sanitize inputs with DOMPurify when available
+      const raw = { type:document.getElementById('doc-type').value, name:document.getElementById('doc-name').value, phone:document.getElementById('doc-phone').value, email:document.getElementById('doc-email').value, comment:document.getElementById('doc-comment').value };
+      const data = Object.fromEntries(Object.entries(raw).map(([k,v])=>[k, (window.DOMPurify ? DOMPurify.sanitize(String(v)) : String(v))]));
+      data.time = new Date().toISOString();
       const res = await postOrQueue('docs', data);
       const el = document.getElementById('doc-msg'); el.style.display='block'; el.style.color='green';
       el.textContent = res ? 'Заявка принята — мы свяжемся по телефону.' : 'Сервер недоступен — заявка сохранена локально.';
@@ -306,7 +277,9 @@
       }
     }
     async function addHousing(){
-      const h = {type:document.getElementById('h-type').value,city:document.getElementById('h-city').value,price:document.getElementById('h-price').value,contact:document.getElementById('h-contact').value,time:new Date().toISOString()};
+      const raw = { type:document.getElementById('h-type').value, city:document.getElementById('h-city').value, price:document.getElementById('h-price').value, contact:document.getElementById('h-contact').value };
+      const h = Object.fromEntries(Object.entries(raw).map(([k,v])=>[k, (window.DOMPurify ? DOMPurify.sanitize(String(v)) : String(v))]));
+      h.time = new Date().toISOString();
       const res = await postOrQueue('housing', h);
       // also keep a local copy for immediate UX
       const arr = JSON.parse(localStorage.getItem('dokwork_housing')||'[]'); arr.unshift(h); localStorage.setItem('dokwork_housing', JSON.stringify(arr));
@@ -324,27 +297,30 @@
     async function deleteHousing(id){ if(!confirm('Удалить объявление?')) return; const res = await authFetch(`${API}/housing/${id}`, { method:'DELETE' }); if(res.ok) alert('Удалено'); else alert('Ошибка'); await loadHousing(); }
 
     // Jobs
+    const jobsState = { page:1, limit:6, q:'' };
     async function loadJobs(){
       const list=document.getElementById('jobs-list');list.innerHTML='';
       try{
-        const res = await authFetch(`${API}/jobs`);
+        const params = new URLSearchParams({ page: jobsState.page, limit: jobsState.limit, q: jobsState.q });
+        const res = await authFetch(`${API}/jobs?${params.toString()}`);
         if(!res.ok) throw new Error('Bad response');
-        const arr = await res.json();
-        if(!arr || arr.items.length===0){ list.innerHTML='<div class="muted">Вакансий пока нет — опубликуйте первую.</div>'; return }
-        arr.items.forEach(j=>{
+        const payload = await res.json();
+        const arr = payload.items || [];
+        if(arr.length===0){ list.innerHTML='<div class="muted">Вакансий пока нет — опубликуйте первую.</div>'; renderJobsPager(payload.meta); return }
+        arr.forEach(j=>{
           const d=document.createElement('div');d.className='listing';d.innerHTML=`<div style="font-weight:700">${j.title}</div><div class="muted">Город: ${j.city} · Зарплата: ${j.salary||'по договорённости'}</div><div style="margin-top:6px">${j.contact||''}</div>`;
           const token = getToken(); if(token){ const btns=document.createElement('div'); btns.style.marginTop='8px'; const edit=document.createElement('button'); edit.className='btn btn-outline'; edit.textContent='Редактировать'; edit.onclick=()=>editJob(j); btns.appendChild(edit); const del=document.createElement('button'); del.className='btn btn-outline'; del.style.marginLeft='8px'; del.textContent='Удалить'; del.onclick=()=>deleteJob(j.id); btns.appendChild(del); d.appendChild(btns);} 
           list.appendChild(d);
         });
+        renderJobsPager(payload.meta);
       }catch(e){
         const arr=JSON.parse(localStorage.getItem('dokwork_jobs')||'[]');
         if(arr.length===0){list.innerHTML='<div class="muted">Вакансий пока нет — опубликуйте первую.</div>';return}
-        arr.forEach(j=>{
-          const d=document.createElement('div');d.className='listing';d.innerHTML=`<div style="font-weight:700">${j.title}</div><div class="muted">Город: ${j.city} · Зарплата: ${j.salary||'по договорённости'}</div><div style="margin-top:6px">${j.contact||''}</div>`;
-          list.appendChild(d);
-        });
+        arr.forEach(j=>{ const d=document.createElement('div');d.className='listing';d.innerHTML=`<div style="font-weight:700">${j.title}</div><div class="muted">Город: ${j.city} · Зарплата: ${j.salary||'по договорённости'}</div><div style="margin-top:6px">${j.contact||''}</div>`; list.appendChild(d); });
       }
     }
+
+    function renderJobsPager(meta){ const el=document.getElementById('jobs-pager'); el.innerHTML=''; if(!meta) return; const prev=document.createElement('button'); prev.className='btn btn-outline'; prev.textContent='◀'; prev.disabled = meta.page<=1; prev.onclick=()=>{ jobsState.page=Math.max(1,jobsState.page-1); loadJobs(); }; const next=document.createElement('button'); next.className='btn btn-outline'; next.textContent='▶'; next.disabled = meta.page>=meta.totalPages; next.onclick=()=>{ jobsState.page=Math.min(meta.totalPages,jobsState.page+1); loadJobs(); }; const info=document.createElement('div'); info.className='muted'; info.textContent=`Страница ${meta.page} из ${meta.totalPages} · Всего: ${meta.total}`; el.appendChild(prev); el.appendChild(info); el.appendChild(next); }
 
     async function editJob(j){
       const title = prompt('Должность', j.title); if(title===null) return; const city = prompt('Город', j.city); if(city===null) return; const salary = prompt('Зарплата', j.salary||'');
@@ -355,7 +331,9 @@
 
     async function deleteJob(id){ if(!confirm('Удалить вакансию?')) return; const res = await authFetch(`${API}/jobs/${id}`, { method:'DELETE' }); if(res.ok) alert('Удалено'); else alert('Ошибка'); await loadJobs(); }
     async function addJob(){
-      const j = {title:document.getElementById('j-title').value,city:document.getElementById('j-city').value,salary:document.getElementById('j-salary').value,contact:document.getElementById('j-contact').value,time:new Date().toISOString()};
+      const raw = { title:document.getElementById('j-title').value, city:document.getElementById('j-city').value, salary:document.getElementById('j-salary').value, contact:document.getElementById('j-contact').value };
+      const j = Object.fromEntries(Object.entries(raw).map(([k,v])=>[k, (window.DOMPurify ? DOMPurify.sanitize(String(v)) : String(v))]));
+      j.time = new Date().toISOString();
       const res = await postOrQueue('jobs', j);
       const arr = JSON.parse(localStorage.getItem('dokwork_jobs')||'[]'); arr.unshift(j); localStorage.setItem('dokwork_jobs', JSON.stringify(arr));
       await loadJobs();
@@ -392,10 +370,77 @@
     function showAccount(user){ document.getElementById('auth-forms').style.display='none'; document.getElementById('account-info').style.display='block'; document.getElementById('acc-welcome').textContent = user.name || user.email; if(user.role==='admin'){ document.getElementById('admin-panel').style.display='block'; loadAdminProfiles(); } }
     function hideAccount(){ document.getElementById('auth-forms').style.display='block'; document.getElementById('account-info').style.display='none'; document.getElementById('admin-panel').style.display='none'; }
 
-    async function loadAdminProfiles(){ try{ const res = await authFetch(`${API}/profiles`); if(!res.ok) throw new Error('Forbidden'); const arr = await res.json(); const el = document.getElementById('admin-profiles'); el.innerHTML=''; arr.forEach(u=>{ const d=document.createElement('div'); d.className='listing'; d.innerHTML = `<div style="font-weight:700">${u.name||u.email}</div><div class="muted">${u.email} · ${u.role}</div>`; el.appendChild(d); }); }catch(e){ console.error(e); } }
+    async function loadAdminProfiles(){
+      try{
+        const res = await authFetch(`${API}/profiles`);
+        if(!res.ok) throw new Error('Forbidden');
+        const arr = await res.json();
+        const el = document.getElementById('admin-profiles'); el.innerHTML='';
+        arr.forEach(u=>{
+          const d=document.createElement('div'); d.className='listing';
+          d.innerHTML = `<div style="font-weight:700">${u.name||u.email}</div><div class="muted">${u.email} · ${u.role}</div>`;
+          // actions: change role / delete
+          const actions = document.createElement('div'); actions.style.marginTop='8px';
+          const roleBtn = document.createElement('button'); roleBtn.className='btn btn-outline'; roleBtn.textContent='Изменить роль';
+          roleBtn.onclick = ()=>adminEditProfile(u.id, u.role, u.name);
+          const delBtn = document.createElement('button'); delBtn.className='btn btn-outline'; delBtn.style.marginLeft='8px'; delBtn.textContent='Удалить';
+          delBtn.onclick = async ()=>{ if(!confirm('Удалить пользователя?')) return; const r = await authFetch(`${API}/profiles/${u.id}`, { method:'DELETE' }); if(r.ok) loadAdminProfiles(); else alert('Ошибка при удалении'); };
+          actions.appendChild(roleBtn); actions.appendChild(delBtn);
+          d.appendChild(actions);
+          el.appendChild(d);
+        });
+      }catch(e){ console.error(e); }
+    }
+
+    async function adminEditProfile(id, currentRole, currentName){
+      const role = prompt('Новая роль (user/admin)', currentRole||'user'); if(role===null) return;
+      const name = prompt('Имя (оставьте пустым чтобы не менять)', currentName||'');
+      const body = {};
+      if(role) body.role = role;
+      if(name) body.name = name;
+      try{
+        const res = await authFetch(`${API}/profiles/${id}`, { method:'PUT', body: JSON.stringify(body) });
+        if(res.ok){ alert('Профиль обновлён'); loadAdminProfiles(); } else { const e = await res.json(); alert('Ошибка: '+(e.message||JSON.stringify(e))); }
+      }catch(e){ alert('Ошибка: '+e.message); }
+    }
+
+    async function loadAdminListings(){
+      try{
+        const rh = await authFetch(`${API}/housing?limit=50&page=1`);
+        const rj = await authFetch(`${API}/jobs?limit=50&page=1`);
+        const hh = rh.ok ? (await rh.json()).items : [];
+        const jj = rj.ok ? (await rj.json()).items : [];
+        const elh = document.getElementById('admin-housing'); elh.innerHTML=''; hh.forEach(h=>{ const d=document.createElement('div'); d.className='listing'; d.innerHTML=`<div style="font-weight:700">${h.type} — ${h.city}</div><div class="muted">${h.price||''} · ${h.contact||''}</div><div style="margin-top:8px"><button class="btn btn-outline" onclick="adminDelete('housing',${h.id})">Удалить</button></div>`; elh.appendChild(d); });
+        const elj = document.getElementById('admin-jobs'); elj.innerHTML=''; jj.forEach(j=>{ const d=document.createElement('div'); d.className='listing'; d.innerHTML=`<div style="font-weight:700">${j.title}</div><div class="muted">${j.city} · ${j.salary||''}</div><div style="margin-top:8px"><button class="btn btn-outline" onclick="adminDelete('jobs',${j.id})">Удалить</button></div>`; elj.appendChild(d); });
+      }catch(e){ console.error(e); }
+    }
+
+    async function adminDelete(type,id){ if(!confirm('Удалить?')) return; const res = await authFetch(`${API}/${type}/${id}`, { method:'DELETE' }); if(res.ok){ alert('Удалено'); loadAdminListings(); } else { alert('Ошибка'); } }
 
     // On load
     document.addEventListener('DOMContentLoaded', async ()=>{ await flushQueues(); loadHousing(); loadJobs(); const token = getToken(); if(token){ try{ const r = await authFetch(`${API}/auth/me`); if(r.ok){ const user = await r.json(); showAccount(user); }else{ setToken(null); } }catch(e){ console.error(e); } } });
+
+    // Client-side filtering helpers
+    function filterHousingClient(){
+      const q = document.getElementById('h-search').value.trim().toLowerCase();
+      if(!q){ loadHousing(); return }
+      // try local copy first
+      const arr = JSON.parse(localStorage.getItem('dokwork_housing')||'[]');
+      const filtered = arr.filter(h=>`${h.city} ${h.type} ${h.price||''}`.toLowerCase().includes(q));
+      renderHousingList(filtered);
+    }
+
+    function filterJobsClient(){
+      const q = document.getElementById('j-search').value.trim().toLowerCase();
+      if(!q){ loadJobs(); return }
+      const arr = JSON.parse(localStorage.getItem('dokwork_jobs')||'[]');
+      const filtered = arr.filter(j=>`${j.title} ${j.city} ${j.salary||''}`.toLowerCase().includes(q));
+      renderJobsList(filtered);
+    }
+
+    function renderHousingList(arr){ const list=document.getElementById('housing-list'); list.innerHTML=''; if(!arr||arr.length===0){ list.innerHTML='<div class="muted">Результатов нет.</div>'; return } arr.forEach(h=>{ const d=document.createElement('div');d.className='listing'; d.innerHTML=`<div style="font-weight:700">${h.type} — ${h.city}</div><div class="muted">Цена: ${h.price||'по договорённости'}</div><div style="margin-top:6px">${h.contact||''}</div>`; list.appendChild(d); }); }
+
+    function renderJobsList(arr){ const list=document.getElementById('jobs-list'); list.innerHTML=''; if(!arr||arr.length===0){ list.innerHTML='<div class="muted">Результатов нет.</div>'; return } arr.forEach(j=>{ const d=document.createElement('div');d.className='listing'; d.innerHTML=`<div style="font-weight:700">${j.title}</div><div class="muted">Город: ${j.city} · Зарплата: ${j.salary||'по договорённости'}</div><div style="margin-top:6px">${j.contact||''}</div>`; list.appendChild(d); }); }
   </script>
 </body>
 </html>
